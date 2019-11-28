@@ -1,7 +1,6 @@
 pipeline {
     environment {
         registry = "ijaspreetbhatti/my-image"
-        registryCredential = ‘dockerhub’
     }
     agent {
         docker {
@@ -32,7 +31,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 script{
-                docker.withRegistry(registry, registryCredential) {
+                docker.withRegistry(registry, ‘dockerhub’) {
                     def customImage = docker.build( registry +":${env.BUILD_ID}")
                     customImage.push()
                 }
