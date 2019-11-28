@@ -1,10 +1,15 @@
 pipeline {
+    environment {
+        registry = "ijaspreetbhatti/my-image"
+        registryCredential = ‘dockerhub’
+    }
     agent {
         docker {
             image 'maven:3-alpine'
             args '-v /root/.m2:/root/.m2'
         }
     }
+    
     options {
         skipStagesAfterUnstable()
     }
@@ -26,9 +31,8 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                docker.withRegistry('https://hub.docker.com', 'dockerID') {
-                    def customImage = docker.build("my-image:${env.BUILD_ID}")
-                    /* Push the container to the custom Registry */
+                docker.withRegistry(registry, registryCredential) {
+                    def customImage = docker.build( registry +":${env.BUILD_ID}")
                     customImage.push()
                 }
             }
