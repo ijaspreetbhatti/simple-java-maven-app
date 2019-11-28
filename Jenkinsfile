@@ -1,3 +1,6 @@
+import jenkins.model.*
+jenkins = Jenkins.instance
+
 pipeline {
     environment {
         registry = "ijaspreetbhatti/my-image"
@@ -31,7 +34,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 script{
-                docker.withRegistry(registry, ‘dockerhub’) {
+                docker.withRegistry(registry, 'dockerhub') {
                     def customImage = docker.build( registry +":${env.BUILD_ID}")
                     customImage.push()
                 }
