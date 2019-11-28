@@ -28,10 +28,10 @@ pipeline {
         stage('Deliver') {
             steps {
                 script{
-                docker.withRegistry('', 'dockerhub') {
+                
                     def customImage = docker.build( "ijaspreetbhatti/my-image:${env.BUILD_ID}")
                     customImage.push()
-                }
+                
                 }
             }
         }
