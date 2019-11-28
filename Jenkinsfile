@@ -1,7 +1,4 @@
 pipeline {
-    environment {
-        registry = "ijaspreetbhatti/my-image"
-    }
     agent {
         docker {
             image 'maven:3-alpine'
@@ -32,7 +29,7 @@ pipeline {
             steps {
                 script{
                 docker.withRegistry('', 'dockerhub') {
-                    def customImage = docker.build( registry +":${env.BUILD_ID}")
+                    def customImage = docker.build( "ijaspreetbhatti/my-image:${env.BUILD_ID}")
                     customImage.push()
                 }
                 }
