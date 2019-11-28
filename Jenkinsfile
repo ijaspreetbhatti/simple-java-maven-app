@@ -31,7 +31,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 script{
-                docker.withRegistry(registry, 'dockerhub') {
+                docker.withRegistry('', 'dockerhub') {
                     def customImage = docker.build( registry +":${env.BUILD_ID}")
                     customImage.push()
                 }
